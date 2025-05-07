@@ -1,3 +1,7 @@
+mod cli;
+use cli::CLI;
+
 fn main() {
-    println!("Hello, world!");
+    let cli = CLI::from_args();
+    println!("{:#?}", cli); // debug print
 }
