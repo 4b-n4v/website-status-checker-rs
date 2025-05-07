@@ -1,4 +1,7 @@
+use std::collections::HashSet;
 use std::env;
+use std::fs::File;
+use std::io::{self, BufRead};
 use std::path::PathBuf;
 use std::process::exit;
 use std::thread::available_parallelism;
@@ -72,5 +75,25 @@ impl CLI {
             timeout_secs,
             retries,
         }
+    }
+    pub fn get_all_urls(&self) -> io::Result<Vec<String>> {
+        let mut urls = HashSet::new();
+
+        if let Some(ref path) = self.file {
+            let file = File::open(path)?;
+            for line in io::BufReader::new(file).lines() {
+                let line = line?;
+                let trimmed = line.trim();
+                if !trimmed.is_empty() && !trimmed.starts_with('#') {
+                    urls.insert(trimmed.to_string());
+                }
+            }
+        }
+
+        for url in &self.urls {
+            urls.insert(url.clone());
+        }
+
+        Ok(urls.into_iter().collect())
     }
 }
