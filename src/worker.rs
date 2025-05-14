@@ -1,9 +1,8 @@
+use std::sync::mpsc::{Receiver, Sender};
+use std::sync::{Arc, Mutex};
+
 use crate::cli::CLI;
 use crate::status::WebsiteStatus;
-use std::sync::{
-    Arc, Mutex,
-    mpsc::{Receiver, Sender},
-};
 
 pub struct Job {
     pub url: String,
@@ -20,17 +19,13 @@ pub fn run_worker(id: usize, job_rx: Arc<Mutex<Receiver<Job>>>, result_tx: Sende
 
             match job {
                 Ok(job) => {
-                    let result = crate::checker::check_website(
-                        &job.url,
-                        job.cli_args.timeout_secs,
-                        job.cli_args.retries,
-                    );
+                    let result = crate::checker::check_website(&job.url, &job.cli_args);
                     result_tx.send(result).unwrap();
                 }
-                Err(_) => break, // Channel closed
+                Err(_) => break,
             }
         }
 
-        println!("Workre {id} exiting");
+        println!("Worker {id} exiting");
     });
 }

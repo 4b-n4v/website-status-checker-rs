@@ -76,9 +76,9 @@ impl CLI {
             retries,
         }
     }
+
     pub fn get_all_urls(&self) -> io::Result<Vec<String>> {
         let mut urls = HashSet::new();
-
         if let Some(ref path) = self.file {
             let file = File::open(path)?;
             for line in io::BufReader::new(file).lines() {
