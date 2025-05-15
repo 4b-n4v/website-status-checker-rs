@@ -7,6 +7,7 @@ By: Angelo Brian Navilon
 ### Build Instructions:
 ```sh
 git clone https://github.com/4b-n4v/website-status-checker-rs.git
+cd website-status-checker-rs
 cargo build --release
 ```
 ### Example Use:
