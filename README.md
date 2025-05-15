@@ -34,6 +34,10 @@ cargo build --release
 ├── Cargo.lock
 ├── Cargo.toml
 ├── README.md
+├── screenshot.jpg
 ├── status.json                  <----- Not included; produced by binary.
 └── urls.txt
 ```
+
+#### Image Example?
+![Output Image](screenshot.jpg)
